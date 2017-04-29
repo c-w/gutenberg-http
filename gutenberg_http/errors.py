@@ -17,7 +17,7 @@ class InvalidUsage(GutenbergException):
 class UnknownFields(InvalidUsage):
     def __init__(self, unknown: StringOrStrings, known: Iterable[str]) -> None:
         if isinstance(unknown, str):
-            message = 'The field "%s" is not supported.' % unknown
+            message = "The field '%s' is not supported." % unknown
         else:
             message = ('The following fields are not supported: %s.'
                        % ', '.join(unknown))
@@ -38,12 +38,12 @@ class NoQueryValue(InvalidUsage):
 class MisformedQuery(InvalidUsage):
     def __init__(self, query: str) -> None:
         super().__init__(
-            'Query "%s" is misformed, should be of format '
-            '"{field} {operator} {value}".' % query)
+            "Query '%s' is misformed, should be of format "
+            "'{field} {operator} {value}'." % query)
 
 
 class UnknownQueryOperator(InvalidUsage):
     def __init__(self, unknown: str, known: Iterable[str]) -> None:
         super().__init__(
-            'The operator "%s" is not supported. Supported operators are: %s'
+            "The operator '%s' is not supported. Supported operators are: %s"
             % (unknown, ','.join(known)))
