@@ -26,9 +26,10 @@ async def body(request: Request, text_id: int):
     return text(body_value)
 
 
-@app.route('/search')
-async def search(request: Request):
-    field, value = parse_search(request.args.get('q'))
+# noinspection PyUnusedLocal
+@app.route('/search/<query>')
+async def search(request: Request, query: str):
+    field, value = parse_search(query)
     search_results = get_etexts(field, value)
 
     return json({'text_ids': search_results})
