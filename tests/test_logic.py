@@ -56,7 +56,7 @@ class SearchTests(TestCase):
 
         result = logic.search('language eq en and author eq Kipling, Rudyard')
 
-        self.assertEqual(result, {2, 3})
+        self.assertEqual(result, [{'text_id': 2}, {'text_id': 3}])
 
     @classmethod
     def given_texts(cls, mock_get_etexts, *key_values):

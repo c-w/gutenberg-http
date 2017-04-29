@@ -100,11 +100,11 @@ Simple search for books
 .. sourcecode :: sh
 
     # simple single-predicate query
-    curl 'http://gutenbergapi.org/search/author eq Melville, Herman'
+    curl 'http://gutenbergapi.org/search/title eq The Jungle Book'
 
 .. sourcecode :: json
 
-    {"text_ids":[2694,2701,4045,15,13720,13721,34970,10712,11231,12384,23969,53861,28794,12841,1900,28656,15859,9268,9269,8118,21816,2489,9146,9147,15422]}
+    {"texts":[{"text_id":236},{"text_id":35997}]}
 
 Complex search for books
 ------------------------
@@ -116,4 +116,4 @@ Complex search for books
 
 .. sourcecode :: json
 
-    {"text_ids":[9147,15]}
+    {"texts":[{"text_id":9147},{"text_id":15}]}
