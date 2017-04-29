@@ -1,9 +1,17 @@
 from typing import Iterable
 from typing import Union
 
-from sanic.exceptions import InvalidUsage
-
 StringOrStrings = Union[Iterable[str], str]
+
+
+class GutenbergException(Exception):
+    pass
+
+
+class InvalidUsage(GutenbergException):
+    def __init__(self, message: str, status_code: int=400):
+        self.message = message
+        self.status_code = status_code
 
 
 class UnknownFields(InvalidUsage):

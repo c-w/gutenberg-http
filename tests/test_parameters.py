@@ -1,8 +1,7 @@
 from unittest import TestCase
 
-from sanic.exceptions import InvalidUsage
-
 from gutenberg_http import parameters
+from gutenberg_http.errors import InvalidUsage
 
 
 class ParseFieldsTests(TestCase):
