@@ -4,13 +4,21 @@ from unittest.mock import patch
 from gutenberg_http import logic
 
 
+def _setup_mock_query(mock, *key_values):
+    def side_effect(key, value):
+        return next((result for k, v, result in key_values
+                     if k == key and v == value), None)
+
+    mock.side_effect = side_effect
+
+
 class MetadataTests(TestCase):
     @patch.object(logic, 'get_metadata')
     def test_loads_all_metadata(self, mock_get_metadata):
-        self.given_metadatas(mock_get_metadata,
-                             ('title', 1, {'Moby Dick'}),
-                             ('author', 1, {'Herman, Melville'}),
-                             ('title', 2, {'The Jungle Book'}))
+        _setup_mock_query(mock_get_metadata,
+                          ('title', 1, {'Moby Dick'}),
+                          ('author', 1, {'Herman, Melville'}),
+                          ('title', 2, {'The Jungle Book'}))
 
         metadata = logic.metadata(fields='', text_id=1)
 
@@ -19,22 +27,14 @@ class MetadataTests(TestCase):
 
     @patch.object(logic, 'get_metadata')
     def test_loads_specific_metadata(self, mock_get_metadata):
-        self.given_metadatas(mock_get_metadata,
-                             ('title', 1, {'Moby Dick'}),
-                             ('author', 1, {'Herman, Melville'}),
-                             ('title', 2, {'The Jungle Book'}))
+        _setup_mock_query(mock_get_metadata,
+                          ('title', 1, {'Moby Dick'}),
+                          ('author', 1, {'Herman, Melville'}),
+                          ('title', 2, {'The Jungle Book'}))
 
         metadata = logic.metadata(fields='title', text_id=1)
 
         self.assertEqual(metadata, {'title': {'Moby Dick'}})
-
-    @classmethod
-    def given_metadatas(cls, mock_get_metadata, *key_values):
-        def side_effect(key, value):
-            return next((result for k, v, result in key_values
-                         if k == key and v == value), None)
-
-        mock_get_metadata.side_effect = side_effect
 
 
 class BodyTests(TestCase):
@@ -50,18 +50,11 @@ class BodyTests(TestCase):
 class SearchTests(TestCase):
     @patch.object(logic, 'get_etexts')
     def test_conjunctive_query(self, mock_get_etexts):
-        self.given_texts(mock_get_etexts,
-                         ('language', 'en', {1, 2, 3}),
-                         ('author', 'Kipling, Rudyard', {2, 3, 4}))
+        _setup_mock_query(mock_get_etexts,
+                          ('language', 'en', {1, 2, 3}),
+                          ('author', 'Kipling, Rudyard', {2, 3, 4}))
 
         result = logic.search('language eq en and author eq Kipling, Rudyard')
 
         self.assertEqual(result, [{'text_id': 2}, {'text_id': 3}])
 
-    @classmethod
-    def given_texts(cls, mock_get_etexts, *key_values):
-        def side_effect(key, value):
-            return next((result for k, v, result in key_values
-                         if k == key and v == value), None)
-
-        mock_get_etexts.side_effect = side_effect
