@@ -32,9 +32,6 @@ async def search(request: Request, query: str):
     conjunction = parse_search(query)
     parts = iter(get_etexts(field, value) for field, value in conjunction)
     results = set(next(parts))
-    for result_part in parts:
-        results.intersection_update(result_part)
-        if not results:
-            break
+    [results.intersection_update(result_part) for result_part in parts]
 
     return json({'text_ids': results})

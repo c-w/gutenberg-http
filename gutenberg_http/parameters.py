@@ -14,7 +14,8 @@ ALL_FIELDS = frozenset(list_supported_metadatas())
 
 ALL_OPERATORS = frozenset({'eq'})
 ALL_COMBINATORS = frozenset({'and'})
-COMBINATORS_RE = re_compile('(%s)' % '|'.join(ALL_COMBINATORS))
+
+split_combinators = re_compile('(%s)' % '|'.join(ALL_COMBINATORS)).split
 
 
 def parse_fields(query: Optional[str]):
@@ -37,8 +38,7 @@ def parse_search(query: Optional[str]):
 
     query = unquote(query)
 
-    search_parts = COMBINATORS_RE.split(query)
-    return [_parse_search_term(term) for term in search_parts
+    return [_parse_search_term(term) for term in split_combinators(query)
             if term not in ALL_COMBINATORS]
 
 
