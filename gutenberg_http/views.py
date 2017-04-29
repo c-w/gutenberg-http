@@ -1,3 +1,4 @@
+from sanic.exceptions import RequestTimeout
 from sanic.request import Request
 from sanic.response import json
 from sanic.response import text
@@ -28,4 +29,11 @@ async def search(request: Request, query: str):
 @app.exception(InvalidUsage)
 async def bad_request(request: Request, exception: InvalidUsage):
     error = {'error': 'invalid_usage', 'message': exception.message}
+    return json(error, exception.status_code)
+
+
+# noinspection PyUnusedLocal
+@app.exception(RequestTimeout)
+async def timeout(request: Request, exception: RequestTimeout):
+    error = {'error': 'timeout', 'message': 'The request timed out.'}
     return json(error, exception.status_code)
