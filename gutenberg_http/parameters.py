@@ -45,7 +45,7 @@ def parse_search(query: Optional[str]):
     if field not in ALL_FIELDS:
         raise UnknownFields(field, ALL_FIELDS)
 
-    value = ' '.join(values)
+    value = ' '.join(values).strip('"\'')
     if not value:
         raise NoQueryValue()
 

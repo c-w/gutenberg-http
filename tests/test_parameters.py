@@ -40,3 +40,12 @@ class ParseSearchTests(TestCase):
         field, value = parameters.parse_search('title%20eq%20Moby%20Dick')
         self.assertEqual(field, 'title')
         self.assertEqual(value, 'Moby Dick')
+
+    def test_parses_correct_quoted_query(self):
+        field, value = parameters.parse_search('title eq "Moby Dick"')
+        self.assertEqual(field, 'title')
+        self.assertEqual(value, 'Moby Dick')
+
+        field, value = parameters.parse_search("title eq 'Moby Dick'")
+        self.assertEqual(field, 'title')
+        self.assertEqual(value, 'Moby Dick')
