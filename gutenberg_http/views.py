@@ -29,7 +29,12 @@ async def body(request: Request, text_id: int):
 # noinspection PyUnusedLocal
 @app.route('/search/<query>')
 async def search(request: Request, query: str):
-    field, value = parse_search(query)
-    search_results = get_etexts(field, value)
+    conjunction = parse_search(query)
+    parts = iter(get_etexts(field, value) for field, value in conjunction)
+    results = set(next(parts))
+    for result_part in parts:
+        results.intersection_update(result_part)
+        if not results:
+            break
 
-    return json({'text_ids': search_results})
+    return json({'text_ids': results})

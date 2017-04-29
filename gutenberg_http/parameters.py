@@ -1,3 +1,4 @@
+from re import compile as re_compile
 from typing import Optional
 from urllib.parse import unquote
 
@@ -12,6 +13,8 @@ from gutenberg_http.errors import UnknownQueryOperator
 ALL_FIELDS = frozenset(list_supported_metadatas())
 
 ALL_OPERATORS = frozenset({'eq'})
+ALL_COMBINATORS = frozenset({'and'})
+COMBINATORS_RE = re_compile('(%s)' % '|'.join(ALL_COMBINATORS))
 
 
 def parse_fields(query: Optional[str]):
@@ -33,6 +36,17 @@ def parse_search(query: Optional[str]):
         raise NoQuery()
 
     query = unquote(query)
+
+    search_parts = COMBINATORS_RE.split(query)
+    return [_parse_search_term(term) for term in search_parts
+            if term not in ALL_COMBINATORS]
+
+
+def _parse_search_term(query: Optional[str]):
+    query = query.strip()
+
+    if not query:
+        raise NoQuery()
 
     try:
         field, operation, *values = [_.strip() for _ in query.split(' ')]
