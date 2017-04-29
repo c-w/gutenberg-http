@@ -1,4 +1,5 @@
 from typing import List
+from typing import Optional
 
 from gutenberg.acquire import load_etext
 from gutenberg.query import get_etexts
@@ -25,11 +26,14 @@ def body(text_id: int) -> str:
 
 
 @lru_cache_truthy_only(maxsize=config.METADATA_CACHE_SIZE)
-def search(query: str) -> List[dict]:
+def search(query: str, fields: Optional[str]=None) -> List[dict]:
+    fields = parse_fields(fields) if fields else []
     conjunction = parse_search(query)
 
     parts = iter(get_etexts(field, value) for field, value in conjunction)
     results = set(next(parts))
     [results.intersection_update(part) for part in parts]  # type: ignore
 
-    return [{'text_id': text_id} for text_id in results]
+    return [dict([('text_id', text_id)] +
+                 [(field, get_metadata(field, text_id)) for field in fields])
+            for text_id in results]

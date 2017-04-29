@@ -26,7 +26,7 @@ def body(request: Request, text_id: int):
 # noinspection PyUnusedLocal
 @app.route('/search/<query>')
 def search(request: Request, query: str):
-    results = _search(query)
+    results = _search(query, request.args.get('fields'))
     return json({'texts': results})
 
 

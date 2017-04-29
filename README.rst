@@ -111,9 +111,22 @@ Complex search for books
 
 .. sourcecode :: sh
 
-    # conjunctive query
-    curl 'http://gutenbergapi.org/search/author eq "Melville, Herman" and title eq "Moby Dick"'
+    # conjunctive query with field expansion
+    curl 'http://gutenbergapi.org/search/author eq "Melville, Herman" and title eq "Moby Dick"?fields=rights,language'
 
 .. sourcecode :: json
 
-    {"texts":[{"text_id":9147},{"text_id":15}]}
+    {
+      "texts": [
+        {
+          "rights": ["Copyrighted. Read the copyright notice inside this book for details."],
+          "language": ["en"],
+          "text_id": 9147
+        },
+        {
+          "rights": ["Public domain in the USA."],
+          "language": ["en"],
+          "text_id": 15
+        }
+      ]
+    }

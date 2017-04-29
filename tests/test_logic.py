@@ -58,3 +58,19 @@ class SearchTests(TestCase):
 
         self.assertEqual(result, [{'text_id': 2}, {'text_id': 3}])
 
+    @patch.object(logic, 'get_etexts')
+    @patch.object(logic, 'get_metadata')
+    def test_query_expands_fields(self, mock_get_metadata, mock_get_etexts):
+        _setup_mock_query(mock_get_etexts,
+                          ('author', 'Kipling, Rudyard', {2}))
+        _setup_mock_query(mock_get_metadata,
+                          ('title', 2, {'The Jungle Book'}),
+                          ('author', 2, {'Kipling, Rudyard'}))
+
+        result = logic.search('author eq Kipling, Rudyard', 'title,author')
+
+        self.assertEqual(result, [{
+            'text_id': 2,
+            'title': {'The Jungle Book'},
+            'author': {'Kipling, Rudyard'},
+        }])
