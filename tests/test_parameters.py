@@ -36,7 +36,7 @@ class ParseSearchTests(TestCase):
         with self.assertRaises(InvalidUsage):
             parameters.parse_search('title eq')
 
-    def test_parses_correct_query(self):
-        field, value = parameters.parse_search('title eq Moby Dick')
+    def test_parses_correct_url_encoded_query(self):
+        field, value = parameters.parse_search('title%20eq%20Moby%20Dick')
         self.assertEqual(field, 'title')
         self.assertEqual(value, 'Moby Dick')

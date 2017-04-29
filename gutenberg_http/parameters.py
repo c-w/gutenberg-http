@@ -1,4 +1,5 @@
 from typing import Optional
+from urllib.parse import unquote
 
 from gutenberg.query import list_supported_metadatas
 
@@ -17,6 +18,8 @@ def parse_fields(query: Optional[str]):
     if not query:
         return ALL_FIELDS
 
+    query = unquote(query)
+
     requested_fields = set(query.split(','))
     unknown_fields = requested_fields - ALL_FIELDS
     if unknown_fields:
@@ -28,6 +31,8 @@ def parse_fields(query: Optional[str]):
 def parse_search(query: Optional[str]):
     if not query:
         raise NoQuery()
+
+    query = unquote(query)
 
     try:
         field, operation, *values = [_.strip() for _ in query.split(' ')]
