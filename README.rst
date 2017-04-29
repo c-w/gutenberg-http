@@ -10,7 +10,8 @@ Overview
 ========
 
 This project is a HTTP wrapper for the `Python Gutenberg API <https://github.com/c-w/gutenberg/>`_.
-As such, it lets you search for books
+As such, it lets you search for books, retrieve information about books and get
+the text of books via a set of easy-to-use HTTP endpoints.
 
 Endpoints
 =========
