@@ -1,0 +1,12 @@
+language: python
+
+python:
+  - "3.5"
+  - "3.6"
+
+env:
+  - TARGET=lint
+  - TARGET=typecheck
+  - TARGET=unit-tests
+
+script: make $TARGET -e py_env=~/virtualenv/python$TRAVIS_PYTHON_VERSION
