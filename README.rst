@@ -27,15 +27,9 @@ Fetch all metadata for a book
 
     {
       "metadata": {
-        "title": [
-          "Moby Dick; Or, The Whale"
-        ],
-        "rights": [
-          "Public domain in the USA."
-        ],
-        "author": [
-          "Melville, Herman"
-        ],
+        "title": ["Moby Dick; Or, The Whale"],
+        "rights": ["Public domain in the USA."],
+        "author": ["Melville, Herman"],
         "subject": [
           "Mentally ill -- Fiction",
           "Whaling -- Fiction",
@@ -48,9 +42,7 @@ Fetch all metadata for a book
           "Whales -- Fiction",
           "Adventure stories"
         ],
-        "language": [
-          "en"
-        ]
+        "language": ["en"]
       },
       "text_id": 2701
     }
@@ -67,12 +59,8 @@ Fetch specific metadata for a book
 
     {
       "metadata": {
-        "author": [
-          "Melville, Herman"
-        ],
-        "title": [
-          "Moby Dick; Or, The Whale"
-        ]
+        "author": ["Melville, Herman"],
+        "title": ["Moby Dick; Or, The Whale"]
       },
       "text_id": 2701
     }
