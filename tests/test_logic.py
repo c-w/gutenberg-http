@@ -5,11 +5,46 @@ from gutenberg_http import logic
 
 
 class MetadataTests(TestCase):
-    pass
+    @patch.object(logic, 'get_metadata')
+    def test_loads_all_metadata(self, mock_get_metadata):
+        self.given_metadatas(mock_get_metadata,
+                             ('title', 1, {'Moby Dick'}),
+                             ('author', 1, {'Herman, Melville'}),
+                             ('title', 2, {'The Jungle Book'}))
+
+        metadata = logic.metadata(fields='', text_id=1)
+
+        self.assertEqual(metadata.pop('title'), {'Moby Dick'})
+        self.assertEqual(metadata.pop('author'), {'Herman, Melville'})
+
+    @patch.object(logic, 'get_metadata')
+    def test_loads_specific_metadata(self, mock_get_metadata):
+        self.given_metadatas(mock_get_metadata,
+                             ('title', 1, {'Moby Dick'}),
+                             ('author', 1, {'Herman, Melville'}),
+                             ('title', 2, {'The Jungle Book'}))
+
+        metadata = logic.metadata(fields='title', text_id=1)
+
+        self.assertEqual(metadata, {'title': {'Moby Dick'}})
+
+    @classmethod
+    def given_metadatas(cls, mock_get_metadata, *key_values):
+        def side_effect(key, value):
+            return next((result for k, v, result in key_values
+                         if k == key and v == value), None)
+
+        mock_get_metadata.side_effect = side_effect
 
 
 class BodyTests(TestCase):
-    pass
+    @patch.object(logic, 'load_etext')
+    def test_body(self, mock_load_etext):
+        mock_load_etext.return_value = 'some text'
+
+        text = logic.body(123)
+
+        self.assertTrue(text)
 
 
 class SearchTests(TestCase):
