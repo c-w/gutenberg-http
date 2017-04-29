@@ -4,9 +4,13 @@ python:
   - "3.5"
   - "3.6"
 
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq -y libdb5.1-dev
+
 env:
   - TARGET=lint
   - TARGET=typecheck
   - TARGET=unit-tests
 
-script: make $TARGET -e py_env=~/virtualenv/python$TRAVIS_PYTHON_VERSION
+script: BERKELEYDB_DIR=/usr make $TARGET -e py_env=~/virtualenv/python$TRAVIS_PYTHON_VERSION
