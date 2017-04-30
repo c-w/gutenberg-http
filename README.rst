@@ -82,40 +82,41 @@ Fetch the text of a book
 
     ... (about 22,000 more lines) ...
 
-
 Simple search for books
 -----------------------
 
 .. sourcecode :: sh
 
-    # simple single-predicate query
-    curl 'http://gutenbergapi.org/search/title eq The Jungle Book'
-
-.. sourcecode :: json
-
-    {"texts":[{"text_id":236},{"text_id":35997}]}
-
-Complex search for books
-------------------------
-
-.. sourcecode :: sh
-
-    # conjunctive query with field expansion
-    curl 'http://gutenbergapi.org/search/author eq "Melville, Herman" and title eq "Moby Dick"?fields=rights,language'
+    # simple single-predicate query with field expansion
+    curl 'http://gutenbergapi.org/search/title eq Moby Dick?fields=author,rights,language'
 
 .. sourcecode :: json
 
     {
       "texts": [
         {
-          "rights": ["Copyrighted. Read the copyright notice inside this book for details."],
+          "author": ["Melville, Herman"],
           "language": ["en"],
-          "text_id": 9147
+          "text_id": 9147,
+          "rights": ["Copyrighted. Read the copyright notice inside this book for details."]
         },
         {
-          "rights": ["Public domain in the USA."],
+          "author": ["Melville, Herman"],
           "language": ["en"],
-          "text_id": 15
+          "text_id": 15,
+          "rights": ["Public domain in the USA."]
         }
       ]
     }
+
+Conjunctive query for books
+---------------------------
+
+.. sourcecode :: sh
+
+    # conjunctive query
+    curl 'http://gutenbergapi.org/search/author eq "Melville, Herman" and rights eq "Public domain in the USA." and title eq "Moby Dick"'
+
+.. sourcecode :: json
+
+    {"texts": [{"text_id": 15}]}
