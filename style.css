@@ -5,6 +5,10 @@ html, body {
   font-size: 1.3em;
   line-height: 1.5;
 }
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
 
 .example {
   border: 1px dashed #bebdbb;
