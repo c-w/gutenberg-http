@@ -13,10 +13,12 @@ html, body {
 }
 .example .request pre {
   display: inline;
+  cursor: pointer;
 }
 .example .request pre[contenteditable="true"] {
   text-decoration: underline;
   font-weight: 600;
+  cursor: text;
 }
 .example .request pre[contenteditable="true"] * {
   display: none;
