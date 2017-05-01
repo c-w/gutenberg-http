@@ -1,8 +1,17 @@
+html, body {
+  margin: 1em 2em;
+  color: #333;
+  background-color: #fff;
+  font-size: 1.3em;
+  line-height: 1.5;
+}
+
 .example .request pre {
   display: inline;
 }
 .example .request pre[contenteditable="true"] {
   text-decoration: underline;
+  font-weight: 600;
 }
 .example .request pre[contenteditable="true"] * {
   display: none;
@@ -10,6 +19,8 @@
 
 .example .response {
   padding: 2em;
+  overflow: auto;
+  max-height: 15em;
 }
 .example .response.success {
   background-color: #83ce56;
