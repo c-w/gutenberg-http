@@ -51,6 +51,7 @@ pre {
   padding: 1em 2em;
   overflow: auto;
   max-height: 15em;
+  border-radius: 0.5em;
 }
 .example .response-container .response.success {
   background-color: #83ce56;
