@@ -21,7 +21,7 @@ html, body {
   cursor: text;
 }
 .example .request pre[contenteditable="true"] * {
-  display: none;
+  display: none; /* prevent newlines */
 }
 
 .example .response-container {
