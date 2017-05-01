@@ -1,7 +1,6 @@
 from sanic.exceptions import RequestTimeout
 from sanic.request import Request
 from sanic.response import json
-from sanic.response import text
 
 from gutenberg_http import app
 from gutenberg_http.errors import InvalidUsage
@@ -20,7 +19,7 @@ def metadata(request: Request, text_id: int):
 @app.route('/texts/<text_id:int>/body')
 def body(request: Request, text_id: int):
     fulltext = _body(text_id)
-    return text(fulltext)
+    return json({'text_id': text_id, 'body': fulltext})
 
 
 # noinspection PyUnusedLocal

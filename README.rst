@@ -76,11 +76,10 @@ Fetch the text of a book
 
 .. sourcecode
 
-    MOBY DICK; OR THE WHALE
-
-    By Herman Melville
-
-    ... (about 22,000 more lines) ...
+    {
+      "text_id": 2701,
+      "body": "MOBY DICK; OR THE WHALE\n\n\nBy Herman Melville ... (about 22,000 more lines) ..."
+    }
 
 Simple search for books
 -----------------------
