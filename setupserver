@@ -15,19 +15,33 @@ envs="GUTENBERG_DATA='${rootdir}/data'"
 exe="${envs} '${pyenv}/bin/runserver' --port ${port}"
 
 # install system dependencies
-echo iptables-persistent iptables-persistent/autosave_v4 boolean false | sudo debconf-set-selections
-echo iptables-persistent iptables-persistent/autosave_v6 boolean false | sudo debconf-set-selections
 sudo apt-get update -q
 sudo apt-get upgrade -q -y
-sudo apt-get install -q -y python3-venv python3-dev build-essential iptables-persistent "${dependencies}"
+sudo apt-get install -q -y python3-venv python3-dev build-essential nginx "${dependencies}"
 sudo apt-get autoremove -q -y
+sudo rm -f '/etc/nginx/sites-enabled/default'
 
 # forward port 80 to application port
-sudo sysctl -w net.ipv4.ip_forward=1
-sudo iptables -I INPUT 1 -p tcp --dport "${port}" -j ACCEPT
-sudo iptables -I INPUT 1 -p tcp --dport 80 -j ACCEPT
-sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port "${port}"
-sudo iptables-save | sudo tee '/etc/iptables/rules.v4'
+sudo tee "/etc/nginx/sites-available/${package}" << EOF
+upstream frontends {
+    server 127.0.0.1:${port};
+}
+
+proxy_next_upstream error;
+
+server {
+    listen 80;
+    location / {
+        proxy_pass_header Server;
+        proxy_set_header Host \$http_host;
+        proxy_redirect off;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Scheme \$scheme;
+        proxy_pass http://frontends;
+    }
+}
+EOF
+sudo ln -f -s "/etc/nginx/sites-available/${package}" '/etc/nginx/sites-enabled'
 
 # install service
 sudo mkdir -p "${rootdir}"
