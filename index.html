@@ -4,8 +4,28 @@
   <title>Gutenberg API</title>
   <meta charset="UTF-8">
   <link rel="icon" href="https://c-w.github.io/gutenberg-http/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="script.js"></script>
 </head>
 <body>
-  <p>Coming soon.</p>
+  <div class="example">
+    <div class="request" data-target="#texts-response">
+      <pre>https://gutenbergapi.org/texts/</pre><pre contenteditable="true">2701</pre>
+    </div>
+    <pre class="response hidden" id="texts-response"></pre>
+  </div>
+  <div class="example">
+    <div class="request" data-target="#body-response">
+      <pre>https://gutenbergapi.org/texts/</pre><pre contenteditable="true">2701</pre><pre>/body</pre>
+    </div>
+    <pre class="response hidden" id="body-response"></pre>
+  </div>
+  <div class="example">
+    <div class="request" data-target="#search-response">
+      <pre>https://gutenbergapi.org/search/</pre><pre contenteditable="true">title eq Moby Dick?fields=author,rights,language</pre>
+    </div>
+    <pre class="response hidden" id="search-response"></pre>
+  </div>
 </body>
 </html>

@@ -1,0 +1,23 @@
+.example .request pre {
+  display: inline;
+}
+.example .request pre[contenteditable="true"] {
+  text-decoration: underline;
+}
+.example .request pre[contenteditable="true"] * {
+  display: none;
+}
+
+.example .response {
+  padding: 2em;
+}
+.example .response.success {
+  background-color: #83ce56;
+}
+.example .response.error {
+  background-color: #e17d52;
+}
+
+.hidden {
+  display: none !important;
+}
