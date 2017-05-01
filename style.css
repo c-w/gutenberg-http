@@ -6,6 +6,12 @@ html, body {
   line-height: 1.5;
 }
 
+.example {
+  border: 1px dashed #bebdbb;
+  padding: 1em 2em;
+  border-radius: 0.5em;
+  margin-bottom: 1em;
+}
 .example .request.get pre:first-child:before {
   content: "GET";
   margin-right: 0.5em;
