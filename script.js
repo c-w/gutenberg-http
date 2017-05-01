@@ -42,12 +42,15 @@ $(document).ready(function() {
     var $requestNode = $(requestNode);
     var $responseNode = $($requestNode.data('target'));
     var request = requestNode.textContent.trim();
-    $requestNode.keyup(debounce(function(ev) {
+    $requestNode.bind('keypress click', debounce(function(ev) {
       var newRequest = requestNode.textContent.trim();
-      var keycode = ev.keyCode || ev.which;
-      if (keycode === KeyCode.ENTER || newRequest !== request) {
+      var isChange = newRequest !== request;
+      var isEnter = (ev.keyCode || ev.which) === KeyCode.ENTER;
+      var isClick = ev.type === 'click' && !$requestNode.data('clicked');
+      if (isChange || isEnter || isClick) {
         executeRequest(newRequest, $responseNode);
         request = newRequest;
+        $requestNode.data('clicked', true);
       }
     }, 250, true));
   });
