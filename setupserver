@@ -39,6 +39,11 @@ server {
     ssl_certificate_key ${ssl_key};
     server_name ${domain};
 
+    add_header 'Access-Control-Allow-Origin' "\$http_origin" always;
+    add_header 'Access-Control-Allow-Credentials' 'true' always;
+    add_header 'Access-Control-Allow-Methods' 'GET' always;
+    add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With' always;
+
     location / {
         proxy_pass_header Server;
         proxy_set_header Host \$http_host;
