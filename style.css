@@ -6,6 +6,11 @@ html, body {
   line-height: 1.5;
 }
 
+.example .request.get pre:first-child:before {
+  content: "GET";
+  margin-right: 0.5em;
+  color: #bebdbb;
+}
 .example .request pre {
   display: inline;
 }
