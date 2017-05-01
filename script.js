@@ -21,18 +21,21 @@ function debounce(func, wait, immediate) {
 };
 
 function executeRequest(request, $responseNode) {
-  $responseNode.removeClass('hidden error success');
-  $responseNode.html('<div class="loader">Loading...</div>');
+  $responseNode.removeClass('hidden');
+
+  var $responseDisplay = $responseNode.find('pre');
+  $responseDisplay.removeClass('error success');
+  $responseDisplay.html('<div class="loader">Loading...</div>');
 
   $.getJSON(request)
   .done(function(response) {
-    $responseNode.text(JSON.stringify(response, null, 2));
-    $responseNode.addClass('success');
+    $responseDisplay.text(JSON.stringify(response, null, 2));
+    $responseDisplay.addClass('success');
   })
   .fail(function(response) {
     var error = response.responseJSON;
-    $responseNode.text(JSON.stringify(error, null, 2));
-    $responseNode.addClass('error');
+    $responseDisplay.text(JSON.stringify(error, null, 2));
+    $responseDisplay.addClass('error');
   });
 }
 
@@ -46,13 +49,20 @@ $(document).ready(function() {
       var newRequest = requestNode.textContent.trim();
       var isChange = newRequest !== request;
       var isEnter = (ev.keyCode || ev.which) === KeyCode.ENTER;
-      var isClick = ev.type === 'click' && !$requestNode.data('clicked');
+      var isClick = ev.type === 'click' && !$responseNode.data('clickToggled');
       if (isChange || isEnter || isClick) {
         executeRequest(newRequest, $responseNode);
         request = newRequest;
-        $requestNode.data('clicked', true);
+        $responseNode.data('clickToggled', true);
       }
     }, 250, true));
+  });
+
+  $('.close').click(function() {
+    var $close = $(this);
+    var $container = $close.closest('.response-container')
+    $container.addClass('hidden');
+    $container.data('clickToggled', false);
   });
 });
 

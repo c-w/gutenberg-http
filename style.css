@@ -22,15 +22,28 @@ html, body {
   display: none;
 }
 
-.example .response {
+.example .response-container {
+  position: relative;
+}
+.example .response-container .close {
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+  cursor: pointer;
+}
+.example .response-container .close:before {
+  content:"\00d7" /* &times; */
+}
+
+.example .response-container .response {
   padding: 2em;
   overflow: auto;
   max-height: 15em;
 }
-.example .response.success {
+.example .response-container .response.success {
   background-color: #83ce56;
 }
-.example .response.error {
+.example .response-container .response.error {
   background-color: #e17d52;
 }
 
