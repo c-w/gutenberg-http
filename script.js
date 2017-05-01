@@ -45,7 +45,7 @@ $(document).ready(function() {
     var $requestNode = $(requestNode);
     var $responseNode = $($requestNode.data('target'));
     var request = requestNode.textContent.trim();
-    $requestNode.bind('keypress click', debounce(function(ev) {
+    $requestNode.bind('keyup click', debounce(function(ev) {
       var newRequest = requestNode.textContent.trim();
       var isChange = newRequest !== request;
       var isEnter = (ev.keyCode || ev.which) === KeyCode.ENTER;
