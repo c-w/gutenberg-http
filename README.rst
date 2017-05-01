@@ -22,7 +22,7 @@ Fetch all metadata for a book
 .. sourcecode :: sh
 
     # fetch all metadata for a book-id
-    curl 'http://gutenbergapi.org/texts/2701'
+    curl 'https://gutenbergapi.org/texts/2701'
 
 .. sourcecode :: json
 
@@ -54,7 +54,7 @@ Fetch specific metadata for a book
 .. sourcecode :: sh
 
     # fetch specific metadata for a book-id
-    curl 'http://gutenbergapi.org/texts/2701?fields=title,author'
+    curl 'https://gutenbergapi.org/texts/2701?fields=title,author'
 
 .. sourcecode :: json
 
@@ -72,7 +72,7 @@ Fetch the text of a book
 .. sourcecode :: sh
 
     # fetch the text for a book-id
-    curl 'http://gutenbergapi.org/texts/2701/body'
+    curl 'https://gutenbergapi.org/texts/2701/body'
 
 .. sourcecode
 
@@ -88,7 +88,7 @@ Simple search for books
 .. sourcecode :: sh
 
     # simple single-predicate query with field expansion
-    curl 'http://gutenbergapi.org/search/title eq Moby Dick?fields=author,rights,language'
+    curl 'https://gutenbergapi.org/search/title eq Moby Dick?fields=author,rights,language'
 
 .. sourcecode :: json
 
@@ -115,7 +115,7 @@ Conjunctive query for books
 .. sourcecode :: sh
 
     # conjunctive query
-    curl 'http://gutenbergapi.org/search/author eq "Melville, Herman" and rights eq "Public domain in the USA." and title eq "Moby Dick"'
+    curl 'https://gutenbergapi.org/search/author eq "Melville, Herman" and rights eq "Public domain in the USA." and title eq "Moby Dick"'
 
 .. sourcecode :: json
 

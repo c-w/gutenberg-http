@@ -11,6 +11,9 @@ pyenv="${rootdir}/pyenv"
 initfile="${rootdir}/daemon"
 logfile="${rootdir}/log"
 pidfile="${rootdir}/pid"
+domain="gutenbergapi.org"
+ssl_cert="/etc/letsencrypt/live/${domain}/fullchain.pem"
+ssl_key="/etc/letsencrypt/live/${domain}/privkey.pem"
 envs="GUTENBERG_DATA='${rootdir}/data'"
 exe="${envs} '${pyenv}/bin/runserver' --port ${port}"
 
@@ -21,23 +24,28 @@ sudo apt-get install -q -y python3-venv python3-dev build-essential nginx "${dep
 sudo apt-get autoremove -q -y
 sudo rm -f '/etc/nginx/sites-enabled/default'
 
-# forward port 80 to application port
+# forward port 80 and 443 to application port
 sudo tee "/etc/nginx/sites-available/${package}" << EOF
-upstream frontends {
-    server 127.0.0.1:${port};
-}
-
-proxy_next_upstream error;
-
 server {
     listen 80;
+    server_name ${domain};
+    rewrite ^(.*)$ https://\$http_host\$1 permanent;
+}
+
+server {
+    listen 443;
+    ssl on;
+    ssl_certificate ${ssl_cert};
+    ssl_certificate_key ${ssl_key};
+    server_name ${domain};
+
     location / {
         proxy_pass_header Server;
         proxy_set_header Host \$http_host;
         proxy_redirect off;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Scheme \$scheme;
-        proxy_pass http://frontends;
+        proxy_pass http://127.0.0.1:${port};
     }
 }
 EOF
