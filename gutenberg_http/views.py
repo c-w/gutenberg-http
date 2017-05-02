@@ -48,3 +48,15 @@ def timeout(request: Request, exception: RequestTimeout):
 def on_exception(request: Request, exception: Exception):
     error = {'error': exception.__class__.__name__, 'message': str(exception)}
     return json(error, getattr(exception, 'status_code', 500))
+
+
+# noinspection PyUnusedLocal,PyProtectedMember
+@app.route('/healthcheck')
+def healthcheck(request: Request):
+    return json({
+        'caches': {
+            'metadata': _metadata.cache_info()._asdict(),
+            'body': _body.cache_info()._asdict(),
+            'search': _search.cache_info()._asdict(),
+        }
+    })
