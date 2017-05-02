@@ -41,3 +41,10 @@ def bad_request(request: Request, exception: InvalidUsage):
 def timeout(request: Request, exception: RequestTimeout):
     error = {'error': 'timeout', 'message': 'The request timed out.'}
     return json(error, exception.status_code)
+
+
+# noinspection PyUnusedLocal
+@app.exception(Exception)
+def on_exception(request: Request, exception: Exception):
+    error = {'error': exception.__class__.__name__, 'message': str(exception)}
+    return json(error, getattr(exception, 'status_code', 500))
