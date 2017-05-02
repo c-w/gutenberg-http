@@ -18,7 +18,7 @@ ALL_COMBINATORS = frozenset({'and'})
 split_combinators = re_compile('(%s)' % '|'.join(ALL_COMBINATORS)).split
 
 
-def parse_fields(query: Optional[str]):
+def parse_include(query: Optional[str]):
     if not query:
         return ALL_FIELDS
 

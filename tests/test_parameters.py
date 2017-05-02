@@ -4,18 +4,18 @@ from gutenberg_http import parameters
 from gutenberg_http.errors import InvalidUsage
 
 
-class ParseFieldsTests(TestCase):
+class ParseIncludeTests(TestCase):
     def test_empty_uses_default(self):
-        fields = parameters.parse_fields('')
+        fields = parameters.parse_include('')
         self.assertEqual(fields, parameters.ALL_FIELDS)
 
-    def test_parses_valid_fields(self):
-        fields = parameters.parse_fields('title,author')
+    def test_parses_valid_includes(self):
+        fields = parameters.parse_include('title,author')
         self.assertEqual(fields, {'title', 'author'})
 
-    def test_bad_field_is_invalid(self):
+    def test_bad_include_is_invalid(self):
         with self.assertRaises(InvalidUsage):
-            parameters.parse_fields('title,foobar,author')
+            parameters.parse_include('title,foobar,author')
 
 
 class ParseSearchTests(TestCase):
