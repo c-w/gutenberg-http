@@ -64,6 +64,20 @@ $(document).ready(function() {
     $container.addClass('hidden');
     $container.data('clickToggled', false);
   });
+
+  var $tooltips = $('pre[contenteditable]');
+  $tooltips.tooltipster({
+    content: 'Edit me!',
+    theme: 'tooltipster-punk',
+    trigger: 'custom'
+  });
+  $tooltips.tooltipster('show');
+  $tooltips.on('mouseenter focus', function() {
+    $(this).tooltipster('hide');
+  });
+  $tooltips.on('click', function() {
+    $tooltips.tooltipster('hide');
+  });
 });
 
 }(jQuery))
