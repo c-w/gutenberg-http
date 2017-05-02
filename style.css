@@ -9,6 +9,9 @@ pre {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+a {
+  color: #333;
+}
 
 .example {
   border: 1px dashed #bebdbb;
