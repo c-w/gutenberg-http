@@ -12,7 +12,7 @@ from gutenberg_http.parameters import parse_search
 
 
 @lru_cache_truthy_only(maxsize=config.METADATA_CACHE_SIZE)
-def metadata(include: str, text_id: int) -> dict:
+def metadata(text_id: int, include: Optional[str]=None) -> dict:
     fields = parse_fields(include)
 
     metadata_values = {field: get_metadata(field, text_id) for field in fields}

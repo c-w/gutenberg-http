@@ -11,7 +11,7 @@ from gutenberg_http.logic import search as _search
 
 @app.route('/texts/<text_id:int>')
 def metadata(request: Request, text_id: int):
-    include = _metadata(request.args.get('include'), text_id)
+    include = _metadata(text_id, request.args.get('include'))
     return json({'text_id': text_id, 'metadata': include})
 
 

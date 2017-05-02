@@ -20,7 +20,7 @@ class MetadataTests(TestCase):
                           ('author', 1, {'Herman, Melville'}),
                           ('title', 2, {'The Jungle Book'}))
 
-        metadata = logic.metadata(include='', text_id=1)
+        metadata = logic.metadata(text_id=1)
 
         self.assertEqual(metadata.pop('title'), {'Moby Dick'})
         self.assertEqual(metadata.pop('author'), {'Herman, Melville'})
@@ -32,7 +32,7 @@ class MetadataTests(TestCase):
                           ('author', 1, {'Herman, Melville'}),
                           ('title', 2, {'The Jungle Book'}))
 
-        metadata = logic.metadata(include='title', text_id=1)
+        metadata = logic.metadata(text_id=1, include='title')
 
         self.assertEqual(metadata, {'title': {'Moby Dick'}})
 
