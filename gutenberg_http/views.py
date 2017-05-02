@@ -1,12 +1,19 @@
 from sanic.exceptions import RequestTimeout
 from sanic.request import Request
 from sanic.response import json
+from sanic.response import redirect
 
 from gutenberg_http import app
 from gutenberg_http.errors import InvalidUsage
 from gutenberg_http.logic import body as _body
 from gutenberg_http.logic import metadata as _metadata
 from gutenberg_http.logic import search as _search
+
+
+# noinspection PyUnusedLocal
+@app.route('/')
+async def index(request: Request):
+    return redirect('https://c-w.github.io/gutenberg-http/')
 
 
 @app.route('/texts/<text_id:int>')
