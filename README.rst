@@ -54,7 +54,7 @@ Fetch specific metadata for a book
 .. sourcecode :: sh
 
     # fetch specific metadata for a book-id
-    curl 'https://gutenbergapi.org/texts/2701?fields=title,author'
+    curl 'https://gutenbergapi.org/texts/2701?include=title,author'
 
 .. sourcecode :: json
 
@@ -87,7 +87,7 @@ Simple search for books
 .. sourcecode :: sh
 
     # simple single-predicate query with field expansion
-    curl 'https://gutenbergapi.org/search/title eq Moby Dick?fields=author,rights,language'
+    curl 'https://gutenbergapi.org/search/title eq Moby Dick?include=author,rights,language'
 
 .. sourcecode :: json
 

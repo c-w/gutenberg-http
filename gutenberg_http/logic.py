@@ -12,8 +12,8 @@ from gutenberg_http.parameters import parse_search
 
 
 @lru_cache_truthy_only(maxsize=config.METADATA_CACHE_SIZE)
-def metadata(fields: str, text_id: int) -> dict:
-    fields = parse_fields(fields)
+def metadata(include: str, text_id: int) -> dict:
+    fields = parse_fields(include)
 
     metadata_values = {field: get_metadata(field, text_id) for field in fields}
 
@@ -26,8 +26,8 @@ def body(text_id: int) -> str:
 
 
 @lru_cache_truthy_only(maxsize=config.METADATA_CACHE_SIZE)
-def search(query: str, fields: Optional[str]=None) -> List[dict]:
-    fields = parse_fields(fields) if fields else []
+def search(query: str, include: Optional[str]=None) -> List[dict]:
+    fields = parse_fields(include) if include else []
     conjunction = parse_search(query)
 
     parts = iter(get_etexts(field, value) for field, value in conjunction)

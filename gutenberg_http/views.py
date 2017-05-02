@@ -11,8 +11,8 @@ from gutenberg_http.logic import search as _search
 
 @app.route('/texts/<text_id:int>')
 def metadata(request: Request, text_id: int):
-    fields = _metadata(request.args.get('fields'), text_id)
-    return json({'text_id': text_id, 'metadata': fields})
+    include = _metadata(request.args.get('include'), text_id)
+    return json({'text_id': text_id, 'metadata': include})
 
 
 # noinspection PyUnusedLocal
@@ -25,7 +25,7 @@ def body(request: Request, text_id: int):
 # noinspection PyUnusedLocal
 @app.route('/search/<query>')
 def search(request: Request, query: str):
-    results = _search(query, request.args.get('fields'))
+    results = _search(query, request.args.get('include'))
     return json({'texts': results})
 
 
