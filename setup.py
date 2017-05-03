@@ -11,7 +11,7 @@ with open('README.rst') as fobj:
 
 
 packages = find_packages(exclude=['tests*'])
-scripts = ['runserver']
+scripts = ['runserver.py']
 
 
 setup(
