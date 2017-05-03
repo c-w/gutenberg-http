@@ -1,5 +1,12 @@
 language: python
 
+addons:
+  apt:
+    sources:
+      - debian-sid
+    packages:
+      - shellcheck
+
 python:
   - "3.5"
   - "3.6"

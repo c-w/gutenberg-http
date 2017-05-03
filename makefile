@@ -27,6 +27,7 @@ tests: unit-tests
 
 lint: venv
 	$(py_env)/bin/flake8 $(py_packages)
+	command -v shellcheck >/dev/null 2>&1 && shellcheck *.sh
 
 typecheck: venv
 	$(py_env)/bin/mypy --ignore-missing-imports --follow-imports=skip $(py_packages)
