@@ -15,7 +15,6 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq -y libdb5.1-dev
   - pip install -U setuptools
-  - pip list
 
 env:
   - TARGET=lint
