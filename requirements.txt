@@ -1,2 +1,2 @@
-Gutenberg==0.5.0
+Gutenberg==0.6.0
 sanic==0.5.2
