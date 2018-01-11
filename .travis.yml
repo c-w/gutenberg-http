@@ -1,3 +1,4 @@
+dist: trusty
 language: python
 
 addons:
@@ -9,10 +10,12 @@ addons:
 
 python:
   - "3.5"
+  - "3.6"
 
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq -y libdb5.1-dev
+  - pip install -U setuptools
 
 env:
   - TARGET=lint
