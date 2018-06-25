@@ -1,3 +1,5 @@
+from urllib.parse import quote
+
 from sanic.exceptions import RequestTimeout
 from sanic.request import Request
 from sanic.response import json
@@ -10,10 +12,10 @@ from gutenberg_http.logic import metadata as _metadata
 from gutenberg_http.logic import search as _search
 
 
-# noinspection PyUnusedLocal
 @app.route('/')
 async def index(request: Request):
-    return redirect('https://c-w.github.io/gutenberg-http/')
+    return redirect('https://c-w.github.io/gutenberg-http?server={}'
+                    .format(quote(request.scheme + '://' + request.host)))
 
 
 @app.route('/texts/<text_id:int>')
