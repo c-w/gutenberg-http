@@ -14,7 +14,7 @@ app_runner=$(py_env)/bin/python runserver.py
 default: server
 
 $(py_env)/bin/activate: requirements.txt
-	test -d $(py_env) || $(PYTHON) -m venv $(py_env)
+	if [ ! -d $(py_env) ]; then $(PYTHON) -m venv $(py_env); $(py_env)/bin/pip install -U pip setuptools; fi
 	$(py_env)/bin/pip install -r requirements.txt
 	test -f requirements-dev.txt && $(py_env)/bin/pip install -r requirements-dev.txt
 
