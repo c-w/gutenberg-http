@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+
+  web:
+    image: ${DOCKER_REPO}/gutenberg-http:${BUILD_TAG}
+    build: .
+    ports:
+      - ${APP_PORT}:80
+    volumes:
+      - ./:/data

@@ -14,12 +14,16 @@ As such, it lets you search for books, retrieve information about books and get
 the text of books via a set of easy-to-use HTTP endpoints.
 
 The API is implemented using the `Sanic <https://github.com/channelcat/sanic>`_
-web-framework and intended to be deployed to an Azure VM behind a nginx reverse
-proxy.
+web-framework and served in a Docker container. You can run the project locally
+using:
 
-You can use the `setup script <https://github.com/c-w/gutenberg-http/blob/master/setupserver.sh>`_
-to deploy your own copy of the service. After deploying the service, make sure
-to set up a TLS certificate, e.g. via `letsencrypt <https://certbot.eff.org/all-instructions/#ubuntu-16-04-xenial-nginx>`_.
+.. sourcecode :: sh
+
+    docker-compose up
+
+This will serve the API at `http://localhost:8000 <http://localhost:8000>`_. It
+will take a while to bring up the service the first time since the Gutenberg
+metadata cache needs to get populated.
 
 Endpoints
 =========
@@ -30,7 +34,7 @@ Fetch all metadata for a book
 .. sourcecode :: sh
 
     # fetch all metadata for a book-id
-    curl 'https://your.domain/texts/2701'
+    curl 'http://localhost:8000/texts/2701'
 
 .. sourcecode :: json
 
@@ -62,7 +66,7 @@ Fetch specific metadata for a book
 .. sourcecode :: sh
 
     # fetch specific metadata for a book-id
-    curl 'https://your.domain/texts/2701?include=title,author'
+    curl 'http://localhost:8000/texts/2701?include=title,author'
 
 .. sourcecode :: json
 
@@ -80,7 +84,7 @@ Fetch the text of a book
 .. sourcecode :: sh
 
     # fetch the text for a book-id
-    curl 'https://your.domain/texts/2701/body'
+    curl 'http://localhost:8000/texts/2701/body'
 
 .. sourcecode
 
@@ -95,7 +99,7 @@ Simple search for books
 .. sourcecode :: sh
 
     # simple single-predicate query with field expansion
-    curl 'https://your.domain/search/title eq Moby Dick?include=author,rights,language'
+    curl 'http://localhost:8000/search/title eq Moby Dick?include=author,rights,language'
 
 .. sourcecode :: json
 
@@ -122,7 +126,7 @@ Conjunctive query for books
 .. sourcecode :: sh
 
     # conjunctive query
-    curl 'https://your.domain/search/author eq "Melville, Herman" and rights eq "Public domain in the USA." and title eq "Moby Dick"'
+    curl 'http://localhost:8000/search/author eq "Melville, Herman" and rights eq "Public domain in the USA." and title eq "Moby Dick"'
 
 .. sourcecode :: json
 
