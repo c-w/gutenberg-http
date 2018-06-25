@@ -6,6 +6,7 @@ from sanic.response import json
 from sanic.response import redirect
 
 from gutenberg_http import app
+from gutenberg_http import config
 from gutenberg_http.errors import InvalidUsage
 from gutenberg_http.logic import body as _body
 from gutenberg_http.logic import metadata as _metadata
@@ -14,8 +15,9 @@ from gutenberg_http.logic import search as _search
 
 @app.route('/')
 async def index(request: Request):
-    return redirect('https://c-w.github.io/gutenberg-http?server={}'
-                    .format(quote(request.scheme + '://' + request.host)))
+    return redirect('{test_page_url}?server={server}'.format(
+        test_page_url=config.TEST_PAGE_URL,
+        server=quote(request.scheme + '://' + request.host)))
 
 
 @app.route('/texts/<text_id:int>')
