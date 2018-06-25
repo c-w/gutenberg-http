@@ -4,6 +4,9 @@ var KeyCode = {
   ENTER: 13
 };
 
+var Server = window.location.search.substr(1).match(/server=([^&]*)/);
+Server = Server ? decodeURIComponent(Server[1]) : 'https://gutenbergapi.org';
+
 // from https://davidwalsh.name/javascript-debounce-function
 function debounce(func, wait, immediate) {
   var timeout;
@@ -27,7 +30,7 @@ function executeRequest(request, $responseNode) {
   $responseDisplay.removeClass('error success');
   $responseDisplay.html('<div class="loader">Loading...</div>');
 
-  $.getJSON(request)
+  $.getJSON(Server + request)
   .done(function(response) {
     $responseDisplay.text(JSON.stringify(response, null, 2));
     $responseDisplay.addClass('success');
