@@ -8,7 +8,7 @@ PYTHON=/usr/bin/python3
 #
 py_env=venv
 py_packages=gutenberg_http
-app_runner=$(py_env)/bin/python runserver
+app_runner=$(py_env)/bin/python runserver.py
 
 .PHONY: default
 default: server
