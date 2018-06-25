@@ -43,7 +43,7 @@ def parse_search(query: Optional[str]):
 
 
 def _parse_search_term(query: Optional[str]):
-    query = query.strip()
+    query = (query or '').strip()
 
     if not query:
         raise NoQuery()

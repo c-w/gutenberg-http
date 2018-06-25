@@ -21,7 +21,7 @@ $(py_env)/bin/activate: requirements.txt
 venv: $(py_env)/bin/activate
 
 unit-tests: venv
-	$(py_env)/bin/nosetests
+	$(py_env)/bin/nosetests --exe
 
 tests: unit-tests
 
