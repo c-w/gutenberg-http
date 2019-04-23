@@ -50,7 +50,6 @@ def runserver(port, host, workers, gunicorn, pid_file):
             gunicorn,
             '--bind={}:{}'.format(host, port),
             '--workers={}'.format(workers),
-            '--worker-class=sanic.worker.GunicornWorker',
             '--pid={}'.format(pid_file),
             'gutenberg_http:app'
         ])

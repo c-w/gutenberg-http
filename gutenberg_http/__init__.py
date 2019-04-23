@@ -1,7 +1,7 @@
-from sanic import Sanic
-from sanic_cors import CORS
+from flask import Flask
+from flask_cors import CORS
 
-app = Sanic(__name__)
-CORS(app, automatic_options=True)
+app = Flask(__name__)
+CORS(app)
 
 import gutenberg_http.views  # noqa
