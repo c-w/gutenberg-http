@@ -4,7 +4,7 @@ RUN apk add --no-cache db-dev
 
 ADD requirements.txt /app/requirements.txt
 RUN apk add --virtual .build-deps --no-cache build-base \
- && pip install -r /app/requirements.txt \
+ && pip install --no-cache-dir -r /app/requirements.txt \
  && apk del .build-deps
 
 ADD gutenberg_http/ /app/gutenberg_http/
