@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from multiprocessing import cpu_count
-from os import execvp
+from os import execv
 from os import kill
 from pathlib import Path
 from signal import SIGHUP
@@ -48,7 +48,7 @@ def runserver(port, host, workers, gunicorn, pid_file):
     else:
         click.echo('Starting {} workers on {}:{}'.format(workers, host, port))
 
-        execvp(gunicorn, [
+        execv(gunicorn, [
             gunicorn,
             '--bind={}:{}'.format(host, port),
             '--workers={}'.format(workers),
