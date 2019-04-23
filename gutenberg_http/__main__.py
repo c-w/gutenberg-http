@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 from multiprocessing import cpu_count
 from os import execv
+from os import getenv
 from os import kill
+from os import makedirs
 from os import remove
-from pathlib import Path
+from os.path import dirname
+from os.path import join
 from signal import SIGHUP
 from sys import executable
 from tempfile import gettempdir
 
 import click
+from jinja2 import Environment
+from jinja2 import FileSystemLoader
 
 
 @click.group(chain=True)
@@ -32,14 +37,23 @@ def initdb():
 @click.option('--port', default=8080, type=int, envvar='PORT')
 @click.option('--host', default='127.0.0.1', envvar='HOST')
 @click.option('--workers', default=cpu_count(), type=int, envvar='WORKERS')
-@click.option('--gunicorn', default=str(Path(executable).parent / 'gunicorn'))
-@click.option('--pid-file', default=str(Path(gettempdir()) / 'gunicorn.pid'))
-def runserver(port, host, workers, gunicorn, pid_file):
+@click.option('--gunicorn', default=join(dirname(executable), 'gunicorn'))
+@click.option('--config-root', default=join(gettempdir(), 'gutenberg_http'))
+def runserver(port, host, workers, gunicorn, config_root):
+    makedirs(config_root, exist_ok=True)
+    pid_file = join(config_root, 'gunicorn.pid')
+    config_file = join(config_root, 'config.py')
+
     try:
         with open(pid_file, 'rb') as fobj:
             pid = int(fobj.read())
     except (FileNotFoundError, ValueError):
         pid = None
+
+    with open(config_file, 'w', encoding='utf-8') as fobj:
+        jinja = Environment(loader=FileSystemLoader(dirname(__file__)))
+        jinja.filters['getenv'] = getenv
+        fobj.write(jinja.get_template('gunicorn.py.j2').render(**locals()))
 
     if pid:
         try:
@@ -50,13 +64,11 @@ def runserver(port, host, workers, gunicorn, pid_file):
             pid = None
 
     if not pid:
-        click.echo('Starting {} workers on {}:{}'.format(workers, host, port))
+        click.echo('Starting gunicorn with config {}'.format(config_file))
 
         execv(gunicorn, [
             gunicorn,
-            '--bind={}:{}'.format(host, port),
-            '--workers={}'.format(workers),
-            '--pid={}'.format(pid_file),
+            '--config={}'.format(config_file),
             'gutenberg_http:app'
         ])
 

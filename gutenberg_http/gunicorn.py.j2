@@ -1,0 +1,14 @@
+bind = "{{ host }}:{{ port }}"
+
+workers = {{ workers }}
+
+pidfile = "{{ pid_file }}"
+
+raw_env = [
+  {%- for key in ['GUTENBERG_DATA', 'BERKELEYDB_DIR'] %}
+    {%- set value = key | getenv -%}
+    {%- if value %}
+    "{{ key }}={{ value }}",
+    {%- endif %}
+  {%- endfor %}
+]
