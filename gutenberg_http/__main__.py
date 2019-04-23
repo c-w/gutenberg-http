@@ -28,9 +28,9 @@ def initdb():
 
 
 @cli.command('runserver')
-@click.option('--port', default=8080, type=int)
-@click.option('--host', default='127.0.0.1')
-@click.option('--workers', default=cpu_count(), type=int)
+@click.option('--port', default=8080, type=int, envvar='PORT')
+@click.option('--host', default='127.0.0.1', envvar='HOST')
+@click.option('--workers', default=cpu_count(), type=int, envvar='WORKERS')
 @click.option('--gunicorn', default=str(Path(executable).parent / 'gunicorn'))
 @click.option('--pid-file', default=str(Path(gettempdir()) / 'gunicorn.pid'))
 def runserver(port, host, workers, gunicorn, pid_file):
@@ -57,4 +57,4 @@ def runserver(port, host, workers, gunicorn, pid_file):
 
 
 if __name__ == '__main__':
-    cli(auto_envvar_prefix='GUTENBERG_HTTP')
+    cli()
