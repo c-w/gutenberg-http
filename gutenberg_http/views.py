@@ -1,3 +1,6 @@
+from datetime import datetime
+from datetime import timezone
+from os.path import getmtime
 from urllib.parse import quote
 
 from sanic.exceptions import RequestTimeout
@@ -64,7 +67,16 @@ async def on_exception(request: Request, exception: Exception):
 # noinspection PyUnusedLocal,PyProtectedMember
 @app.route('/healthcheck')
 async def healthcheck(request: Request):
+    try:
+        db_freshness = str(datetime.fromtimestamp(
+            getmtime(config.DB_DIR), timezone.utc))
+    except (FileNotFoundError, TypeError):
+        db_freshness = None
+
     return json({
+        'db': {
+            'freshness': db_freshness,
+        },
         'caches': {
             'metadata': _metadata.cache_info()._asdict(),
             'body': _body.cache_info()._asdict(),
