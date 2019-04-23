@@ -2,12 +2,11 @@ FROM python:alpine3.6
 
 RUN apk add --no-cache db-dev
 
-ARG BUILD_DEPENDENCIES="build-base"
 ADD requirements.txt /app/requirements.txt
-RUN apk add --no-cache ${BUILD_DEPENDENCIES} \
+RUN apk add --virtual .build-deps --no-cache build-base \
  && python3 -m venv /venv \
  && /venv/bin/pip install -r /app/requirements.txt \
- && apk del ${BUILD_DEPENDENCIES}
+ && apk del .build-deps
 
 ADD gutenberg_http/ /app/gutenberg_http/
 
