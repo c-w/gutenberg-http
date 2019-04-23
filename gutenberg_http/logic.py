@@ -6,12 +6,17 @@ from typing import Optional
 
 from gutenberg.acquire import load_etext
 from gutenberg.query import get_etexts
-from gutenberg.query import get_metadata
+from gutenberg.query import get_metadata as _get_metadata
 
 from gutenberg_http import config
 from gutenberg_http.cache import lru_cache_truthy_only
 from gutenberg_http.parameters import parse_include
 from gutenberg_http.parameters import parse_search
+
+
+def get_metadata(*args, **kwargs):
+    value = _get_metadata(*args, **kwargs)
+    return list(value) if value else None
 
 
 def db_freshness() -> Optional[str]:
