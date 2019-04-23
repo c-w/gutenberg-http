@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 from multiprocessing import cpu_count
+from os import execvp
+from pathlib import Path
+from sys import executable
 
 import click
 
@@ -27,11 +30,17 @@ def initdb():
 @click.option('--port', default=8080, type=int)
 @click.option('--host', default=HOSTS[0], type=click.Choice(HOSTS))
 @click.option('--workers', default=cpu_count(), type=int)
-def runserver(port, host, workers):
-    from gutenberg_http import app
-
+@click.option('--gunicorn', default=str(Path(executable).parent / 'gunicorn'))
+def runserver(port, host, workers, gunicorn):
     click.echo('Starting {} workers on {}:{}'.format(workers, host, port))
-    app.run(host=host, port=port, workers=workers)
+
+    execvp(gunicorn, [
+        gunicorn,
+        '--bind={}:{}'.format(host, port),
+        '--workers={}'.format(workers),
+        '--worker-class=sanic.worker.GunicornWorker',
+        'gutenberg_http:app'
+    ])
 
 
 if __name__ == '__main__':
