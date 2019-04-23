@@ -1,6 +1,6 @@
 from re import compile as re_compile
 from typing import Optional
-from urllib.parse import unquote
+from urllib.parse import unquote_plus
 
 from gutenberg.query import list_supported_metadatas
 
@@ -22,7 +22,7 @@ def parse_include(query: Optional[str]):
     if not query:
         return ALL_FIELDS
 
-    query = unquote(query)
+    query = unquote_plus(query)
 
     requested_fields = set(query.split(','))
     unknown_fields = requested_fields - ALL_FIELDS
@@ -36,7 +36,7 @@ def parse_search(query: Optional[str]):
     if not query:
         raise NoQuery()
 
-    query = unquote(query)
+    query = unquote_plus(query)
 
     return [_parse_search_term(term) for term in split_combinators(query)
             if term not in ALL_COMBINATORS]

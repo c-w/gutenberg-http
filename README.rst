@@ -107,7 +107,7 @@ Simple search for books
 .. sourcecode :: sh
 
     # simple single-predicate query with field expansion
-    curl 'http://localhost:8000/search/title eq Moby Dick?include=author,rights,language'
+    curl 'http://localhost:8000/search/title+eq+Moby+Dick?include=author,rights,language'
 
 .. sourcecode :: json
 
@@ -134,7 +134,7 @@ Conjunctive query for books
 .. sourcecode :: sh
 
     # conjunctive query
-    curl 'http://localhost:8000/search/author eq "Melville, Herman" and rights eq "Public domain in the USA." and title eq "Moby Dick"'
+    curl 'http://localhost:8000/search/author+eq+"Melville,+Herman"+and+rights+eq+"Public+domain+in+the+USA."+and+title+eq+"Moby+Dick"'
 
 .. sourcecode :: json
 
