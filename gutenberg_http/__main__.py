@@ -2,6 +2,7 @@
 from multiprocessing import cpu_count
 from os import execv
 from os import kill
+from os import remove
 from pathlib import Path
 from signal import SIGHUP
 from sys import executable
@@ -41,9 +42,14 @@ def runserver(port, host, workers, gunicorn, pid_file):
         pid = None
 
     if pid:
-        click.echo('Reloading gunicorn at pid {}'.format(pid))
-        kill(pid, SIGHUP)
-    else:
+        try:
+            click.echo('Reloading gunicorn at pid {}'.format(pid))
+            kill(pid, SIGHUP)
+        except ProcessLookupError:
+            remove(pid_file)
+            pid = None
+
+    if not pid:
         click.echo('Starting {} workers on {}:{}'.format(workers, host, port))
 
         execv(gunicorn, [
