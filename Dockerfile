@@ -13,6 +13,12 @@ ADD gutenberg_http/ /app/gutenberg_http/
 
 ENV BERKELEYDB_DIR="/usr"
 ENV GUTENBERG_DATA="/data"
+ENV GUTENBERG_HTTP_RUNSERVER_HOST="0.0.0.0"
+ENV GUTENBERG_HTTP_RUNSERVER_PORT="80"
+ENV GUTENBERG_HTTP_RUNSERVER_WORKERS="2"
+
 WORKDIR /app
-EXPOSE 80
-CMD ["/venv/bin/python", "-m", "gutenberg_http", "--port=80", "--host=0.0.0.0"]
+
+EXPOSE ${PORT}
+
+CMD ["/venv/bin/python", "-m", "gutenberg_http", "initdb", "runserver"]
