@@ -9,8 +9,6 @@ from tempfile import gettempdir
 
 import click
 
-HOSTS = ('127.0.0.1', '0.0.0.0')
-
 
 @click.group(chain=True)
 def cli():
@@ -31,7 +29,7 @@ def initdb():
 
 @cli.command('runserver')
 @click.option('--port', default=8080, type=int)
-@click.option('--host', default=HOSTS[0], type=click.Choice(HOSTS))
+@click.option('--host', default='127.0.0.1')
 @click.option('--workers', default=cpu_count(), type=int)
 @click.option('--gunicorn', default=str(Path(executable).parent / 'gunicorn'))
 @click.option('--pid-file', default=str(Path(gettempdir()) / 'gunicorn.pid'))
