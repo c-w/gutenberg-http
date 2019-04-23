@@ -4,12 +4,12 @@ RUN apk add --no-cache db-dev
 
 WORKDIR /app
 
-ADD requirements.txt .
+COPY requirements.txt .
 RUN apk add --virtual .build-deps --no-cache build-base \
  && pip install --no-cache-dir -r requirements.txt \
  && apk del .build-deps
 
-ADD gutenberg_http/ .
+COPY . .
 
 ENV BERKELEYDB_DIR="/usr"
 ENV GUTENBERG_DATA="/data"
