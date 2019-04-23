@@ -19,11 +19,19 @@ using:
 
 .. sourcecode :: sh
 
-    docker-compose up
+    docker-compose up --build web
 
 This will serve the API at `http://localhost:8000 <http://localhost:8000>`_. It
 will take a while to bring up the service the first time since the Gutenberg
 metadata cache needs to get populated.
+
+To refresh the Gutenberg metadata cache and reload the service after the initial
+server start, you can run:
+
+.. sourcecode :: sh
+
+    docker-compose exec web sh -c 'GUTENBERG_DATA=/new-data python -m gutenberg_http initdb runserver'
+
 
 Endpoints
 =========
