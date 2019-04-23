@@ -25,4 +25,4 @@ typecheck: venv
 ci: tests lint typecheck
 
 server: venv
-	$(py_env)/bin/python runserver.py
+	$(py_env)/bin/python -m gutenberg_http
