@@ -5,7 +5,7 @@ var KeyCode = {
 };
 
 var Server = window.location.search.substr(1).match(/server=([^&]*)/);
-Server = Server ? decodeURIComponent(Server[1]) : 'https://gutenberg.justamouse.com';
+Server = Server ? decodeURIComponent(Server[1]) : 'gutenberg.justamouse.com';
 
 // from https://davidwalsh.name/javascript-debounce-function
 function debounce(func, wait, immediate) {
@@ -30,7 +30,7 @@ function executeRequest(request, $responseNode) {
   $responseDisplay.removeClass('error success');
   $responseDisplay.html('<div class="loader">Loading...</div>');
 
-  $.getJSON(Server + request)
+  $.getJSON('//' + Server + request)
   .done(function(response) {
     $responseDisplay.text(JSON.stringify(response, null, 2));
     $responseDisplay.addClass('success');
