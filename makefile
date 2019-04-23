@@ -1,24 +1,15 @@
-#
-# System configuration
-#
-PYTHON=/usr/bin/python3
-
-#
-# You shouldn't need to touch anything below this line.
-#
 py_env=venv
-py_packages=gutenberg_http
-app_runner=$(py_env)/bin/python runserver.py
 
 .PHONY: default
 default: server
 
-$(py_env)/bin/activate: requirements.txt
-	if [ ! -d $(py_env) ]; then $(PYTHON) -m venv $(py_env); $(py_env)/bin/pip install -U pip setuptools; fi
+requirements.txt.out: requirements.txt requirements-dev.txt
+	if [ ! -d $(py_env) ]; then python3 -m venv $(py_env); $(py_env)/bin/pip install -U pip setuptools; fi
 	$(py_env)/bin/pip install -r requirements.txt
-	test -f requirements-dev.txt && $(py_env)/bin/pip install -r requirements-dev.txt
+	$(py_env)/bin/pip install -r requirements-dev.txt
+	touch $(py_env)/requirements.txt.out
 
-venv: $(py_env)/bin/activate
+venv: requirements.txt.out
 
 unit-tests: venv
 	$(py_env)/bin/nosetests --exe
@@ -26,12 +17,12 @@ unit-tests: venv
 tests: unit-tests
 
 lint: venv
-	$(py_env)/bin/flake8 $(py_packages)
+	$(py_env)/bin/flake8 gutenberg_http
 
 typecheck: venv
-	$(py_env)/bin/mypy --ignore-missing-imports --follow-imports=skip $(py_packages)
+	$(py_env)/bin/mypy --ignore-missing-imports --follow-imports=skip gutenberg_http
 
 ci: tests lint typecheck
 
 server: venv
-	$(app_runner)
+	$(py_env)/bin/python runserver.py
