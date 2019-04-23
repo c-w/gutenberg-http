@@ -5,7 +5,7 @@ var KeyCode = {
 };
 
 var Server = window.location.search.substr(1).match(/server=([^&]*)/);
-Server = Server ? decodeURIComponent(Server[1]) : 'https://gutenbergapi.org';
+Server = Server ? decodeURIComponent(Server[1]) : 'https://gutenberg.justamouse.com';
 
 // from https://davidwalsh.name/javascript-debounce-function
 function debounce(func, wait, immediate) {
