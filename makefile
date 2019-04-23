@@ -12,7 +12,7 @@ requirements.txt.out: requirements.txt requirements-dev.txt
 venv: requirements.txt.out
 
 unit-tests: venv
-	$(py_env)/bin/nosetests --exe
+	$(py_env)/bin/nose2 -v
 
 tests: unit-tests
 

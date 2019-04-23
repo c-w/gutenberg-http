@@ -9,7 +9,7 @@ class GutenbergException(Exception):
 
 
 class InvalidUsage(GutenbergException):
-    def __init__(self, message: str, status_code: int=400) -> None:
+    def __init__(self, message: str, status_code: int = 400) -> None:
         self.message = message
         self.status_code = status_code
 
