@@ -14,7 +14,7 @@ from gutenberg_http import logic
 def index():
     return redirect('{test_page_url}?server={server}'.format(
         test_page_url=config.TEST_PAGE_URL,
-        server=quote(request.scheme + '://' + request.host)))
+        server=quote(request.host)))
 
 
 @app.route('/texts/<int:text_id>')
