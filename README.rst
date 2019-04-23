@@ -30,7 +30,7 @@ server start, you can run:
 
 .. sourcecode :: sh
 
-    docker-compose exec web sh -c 'GUTENBERG_DATA=/data/db2 python -m gutenberg_http initdb runserver'
+    ./scripts/update.sh
 
 
 Endpoints
