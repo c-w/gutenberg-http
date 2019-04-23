@@ -55,8 +55,11 @@ def healthcheck():
             'freshness': logic.db_freshness(),
         },
         'caches': {
-            'metadata': logic.metadata.cache_info()._asdict(),
-            'body': logic.body.cache_info()._asdict(),
-            'search': logic.search.cache_info()._asdict(),
-        }
+            func.__name__: func.cache_info()._asdict()
+            for func in (
+                logic.metadata,
+                logic.body,
+                logic.search,
+            )
+        },
     })
