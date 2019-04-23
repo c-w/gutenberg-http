@@ -9,10 +9,8 @@ from flask import jsonify
 
 from gutenberg_http import app
 from gutenberg_http import config
-from gutenberg_http.errors import InvalidUsage
-from gutenberg_http.logic import body as _body
-from gutenberg_http.logic import metadata as _metadata
-from gutenberg_http.logic import search as _search
+from gutenberg_http import errors
+from gutenberg_http import logic
 
 
 @app.route('/')
@@ -24,24 +22,24 @@ def index():
 
 @app.route('/texts/<int:text_id>')
 def metadata(text_id: int):
-    include = _metadata(text_id, request.args.get('include'))
+    include = logic.metadata(text_id, request.args.get('include'))
     return jsonify({'text_id': text_id, 'metadata': include})
 
 
 @app.route('/texts/<int:text_id>/body')
 def body(text_id: int):
-    fulltext = _body(text_id)
+    fulltext = logic.body(text_id)
     return jsonify({'text_id': text_id, 'body': fulltext})
 
 
 @app.route('/search/<query>')
 def search(query: str):
-    results = _search(query, request.args.get('include'))
+    results = logic.search(query, request.args.get('include'))
     return jsonify({'texts': results})
 
 
-@app.errorhandler(InvalidUsage)
-def bad_request(exception: InvalidUsage):
+@app.errorhandler(errors.InvalidUsage)
+def bad_request(exception: errors.InvalidUsage):
     error = {'error': 'invalid_usage', 'message': exception.message}
     return jsonify(error), exception.status_code
 
@@ -66,8 +64,8 @@ def healthcheck():
             'freshness': db_freshness,
         },
         'caches': {
-            'metadata': _metadata.cache_info()._asdict(),
-            'body': _body.cache_info()._asdict(),
-            'search': _search.cache_info()._asdict(),
+            'metadata': logic.metadata.cache_info()._asdict(),
+            'body': logic.body.cache_info()._asdict(),
+            'search': logic.search.cache_info()._asdict(),
         }
     })
