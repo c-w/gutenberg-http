@@ -1,6 +1,5 @@
 # Volumes for GUTENBERG_DATA directory mount
-metadata/
-text/
+db[0-9]*/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

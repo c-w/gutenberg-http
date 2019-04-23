@@ -12,7 +12,7 @@ RUN apk add --virtual .build-deps --no-cache build-base \
 COPY . .
 
 ENV BERKELEYDB_DIR="/usr"
-ENV GUTENBERG_DATA="/data"
+ENV GUTENBERG_DATA="/data/db1"
 ENV HOST="0.0.0.0"
 ENV PORT="80"
 ENV WORKERS="2"
