@@ -1,3 +1,6 @@
+from datetime import datetime
+from datetime import timezone
+from os.path import getmtime
 from typing import List
 from typing import Optional
 
@@ -9,6 +12,18 @@ from gutenberg_http import config
 from gutenberg_http.cache import lru_cache_truthy_only
 from gutenberg_http.parameters import parse_include
 from gutenberg_http.parameters import parse_search
+
+
+def db_freshness() -> Optional[str]:
+    if not config.DB_DIR:
+        return None
+
+    try:
+        mtime = getmtime(config.DB_DIR)
+    except FileNotFoundError:
+        return None
+
+    return str(datetime.fromtimestamp(mtime, timezone.utc))
 
 
 @lru_cache_truthy_only(maxsize=config.METADATA_CACHE_SIZE)

@@ -1,6 +1,3 @@
-from datetime import datetime
-from datetime import timezone
-from os.path import getmtime
 from urllib.parse import quote
 
 from flask import redirect
@@ -53,15 +50,9 @@ def on_exception(exception: Exception):
 # noinspection PyProtectedMember
 @app.route('/healthcheck')
 def healthcheck():
-    try:
-        db_freshness = str(datetime.fromtimestamp(
-            getmtime(config.DB_DIR), timezone.utc))
-    except (FileNotFoundError, TypeError):
-        db_freshness = None
-
     return jsonify({
         'db': {
-            'freshness': db_freshness,
+            'freshness': logic.db_freshness(),
         },
         'caches': {
             'metadata': logic.metadata.cache_info()._asdict(),
