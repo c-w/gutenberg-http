@@ -12,3 +12,27 @@ raw_env = [
     {%- endif %}
   {%- endfor %}
 ]
+
+
+def on_reload(arbiter):
+    import glob
+    import os
+    import shutil
+
+    db_path = "{{ 'GUTENBERG_DATA' | getenv }}"
+    db_prefix = "db"
+    if not db_path:
+        return
+
+    db_root = os.path.dirname(db_path)
+    db_name = os.path.basename(db_path)
+    if db_root == "/" and not db_prefix:
+        return
+
+    for full_path in glob.iglob("{}/{}*".format(db_root, db_prefix)):
+        dir_name = os.path.basename(full_path)
+        if os.path.isdir(full_path) and dir_name != db_name:
+            try:
+                shutil.rmtree(full_path)
+            except FileNotFoundError:
+                pass
