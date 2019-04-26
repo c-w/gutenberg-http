@@ -7,7 +7,18 @@ env:
 
 before_script:
   - export PYTHON_VERSION=${DOCKER_PYTHON_VERSION}
-  - export BUILD_TAG=travis-${TRAVIS_BUILD_NUMBER}
+  - export BUILD_TAG="${TRAVIS_TAG:-travis${TRAVIS_BUILD_NUMBER}}"
 
 script:
   - docker-compose build
+
+before_deploy:
+  - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+
+deploy:
+  - provider: script
+    script: docker-compose push
+    on:
+      repo: c-w/gutenberg-http
+      tags: true
+      condition: ${DOCKER_PYTHON_VERSION} = 3.6
