@@ -5,6 +5,7 @@ from flask import request
 from flask import jsonify
 
 from gutenberg_http import app
+from gutenberg_http import cache
 from gutenberg_http import config
 from gutenberg_http import errors
 from gutenberg_http import logic
@@ -18,12 +19,14 @@ def index():
 
 
 @app.route('/texts/<int:text_id>')
+@cache.cached(query_string=True)
 def metadata(text_id: int):
     include = logic.metadata(text_id, request.args.get('include'))
     return jsonify({'text_id': text_id, 'metadata': include})
 
 
 @app.route('/texts/<int:text_id>/body')
+@cache.cached(query_string=True)
 def body(text_id: int):
     fulltext = logic.body(text_id)
     return jsonify({'text_id': text_id, 'body': fulltext})
@@ -47,19 +50,10 @@ def on_exception(exception: Exception):
     return jsonify(error), getattr(exception, 'status_code', 500)
 
 
-# noinspection PyProtectedMember
 @app.route('/healthcheck')
 def healthcheck():
     return jsonify({
         'db': {
             'freshness': logic.db_freshness(),
-        },
-        'caches': {
-            func.__name__: func.cache_info()._asdict()
-            for func in (
-                logic.metadata,
-                logic.body,
-                logic.search,
-            )
         },
     })
