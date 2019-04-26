@@ -5,6 +5,9 @@ Gutenberg-HTTP
 .. image:: https://travis-ci.org/c-w/gutenberg-http.svg?branch=master
     :target: https://travis-ci.org/c-w/gutenberg-http
 
+.. image:: https://images.microbadger.com/badges/version/cwolff/gutenberg-http.svg
+    :target: https://hub.docker.com/r/cwolff/gutenberg-http/tags
+
 
 Overview
 ========
