@@ -3,7 +3,7 @@ version: '3.3'
 services:
 
   web:
-    image: ${DOCKER_REPO}/gutenberg-http:${BUILD_TAG}
+    image: ${DOCKER_USERNAME}/gutenberg-http:${BUILD_TAG}
     build:
       context: .
       args:
