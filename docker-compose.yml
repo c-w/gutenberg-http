@@ -10,5 +10,6 @@ services:
     restart: "${APP_RESTART}"
     environment:
       - GUTENBERG_DATA=/data/${APP_DB}
+      - APPINSIGHTS_INSTRUMENTATIONKEY=${APPINSIGHTS_INSTRUMENTATIONKEY}
     volumes:
       - ./:/data
