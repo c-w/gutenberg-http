@@ -36,10 +36,11 @@ def initdb():
 @cli.command('runserver')
 @click.option('--port', default=8080, type=int, envvar='PORT')
 @click.option('--host', default='127.0.0.1', envvar='HOST')
+@click.option('--log-level', default='info', envvar='LOG_LEVEL')
 @click.option('--workers', default=cpu_count(), type=int, envvar='WORKERS')
 @click.option('--gunicorn', default=join(dirname(executable), 'gunicorn'))
 @click.option('--config-root', default=join(gettempdir(), 'gutenberg_http'))
-def runserver(port, host, workers, gunicorn, config_root):
+def runserver(port, host, log_level, workers, gunicorn, config_root):
     makedirs(config_root, exist_ok=True)
     pid_file = join(config_root, 'gunicorn.pid')
     config_file = join(config_root, 'config.py')

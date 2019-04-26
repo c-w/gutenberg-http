@@ -13,6 +13,8 @@ raw_env = [
   {%- endfor %}
 ]
 
+loglevel = "{{ log_level }}"
+
 
 def on_reload(arbiter):
     import glob

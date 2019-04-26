@@ -11,5 +11,6 @@ services:
     environment:
       - GUTENBERG_DATA=/data/${APP_DB}
       - APPINSIGHTS_INSTRUMENTATIONKEY=${APPINSIGHTS_INSTRUMENTATIONKEY}
+      - LOG_LEVEL=${LOG_LEVEL}
     volumes:
       - ./:/data
