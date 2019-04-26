@@ -30,7 +30,7 @@ server start, you can run:
 
 .. sourcecode :: sh
 
-    ./scripts/update.sh
+    ./scripts/update-data.sh
 
 
 Endpoints
