@@ -1,15 +1,35 @@
-FROM python:alpine3.6
-
-RUN apk add --no-cache db-dev
+ARG PYTHON_VERSION=3.6
+FROM python:${PYTHON_VERSION}-alpine AS builder
 
 WORKDIR /app
 
+RUN apk add --no-cache db-dev \
+ && apk add --no-cache build-base
+
 COPY requirements.txt .
-RUN apk add --virtual .build-deps --no-cache build-base \
- && pip install --no-cache-dir -r requirements.txt \
- && apk del .build-deps
+RUN pip install -r requirements.txt \
+ && pip wheel -r requirements.txt -w /deps
+
+COPY requirements-dev.txt .
+RUN pip install -r requirements-dev.txt
 
 COPY . .
+
+RUN flake8
+RUN mypy --ignore-missing-imports --cache-dir=/dev/null gutenberg_http
+RUN nose2 -v
+
+RUN find . -name '__pycache__' -type d -print0 | xargs -0 rm -rf
+
+FROM python:${PYTHON_VERSION}-alpine
+
+RUN apk add --no-cache db-dev
+
+COPY --from=builder /deps /deps
+RUN pip install --no-cache-dir /deps/*.whl
+
+COPY --from=builder /app /app
+WORKDIR /app
 
 ENV BERKELEYDB_DIR="/usr"
 ENV GUTENBERG_DATA="/data/db1"

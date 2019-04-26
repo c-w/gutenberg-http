@@ -1,4 +1,4 @@
 *
 !gutenberg_http/
-!runserver.py
-!requirements.txt
+!tests/
+!requirements*.txt

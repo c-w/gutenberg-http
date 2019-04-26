@@ -4,7 +4,10 @@ services:
 
   web:
     image: ${DOCKER_REPO}/gutenberg-http:${BUILD_TAG}
-    build: .
+    build:
+      context: .
+      args:
+        PYTHON_VERSION: ${PYTHON_VERSION}
     ports:
       - ${APP_PORT}:80
     restart: "${APP_RESTART}"

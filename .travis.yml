@@ -1,19 +1,13 @@
-language: python
-
-cache: pip
-
-python:
-  - "3.5"
-  - "3.6"
-
-addons:
-  apt:
-    packages:
-      - libdb-dev
+language: minimal
 
 env:
-  - TARGET=lint
-  - TARGET=typecheck
-  - TARGET=unit-tests
+  matrix:
+    - DOCKER_PYTHON_VERSION=3.5
+    - DOCKER_PYTHON_VERSION=3.6
 
-script: BERKELEYDB_DIR=/usr make $TARGET -e py_env=~/virtualenv/python$TRAVIS_PYTHON_VERSION
+before_script:
+  - export PYTHON_VERSION=${DOCKER_PYTHON_VERSION}
+  - export BUILD_TAG=travis-${TRAVIS_BUILD_NUMBER}
+
+script:
+  - docker-compose build
