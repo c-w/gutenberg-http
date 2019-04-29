@@ -10,5 +10,5 @@ db="db$(date +%s)"
 
   sed -i "s|^APP_DB=.*|APP_DB=${db}|g" .env
 
-  /usr/local/bin/docker-compose exec web sh -c "GUTENBERG_DATA=/data/${db} python -m gutenberg_http initdb runserver"
+  /usr/local/bin/docker-compose exec -T web sh -c "GUTENBERG_DATA=/data/${db} python -m gutenberg_http initdb runserver"
 )
