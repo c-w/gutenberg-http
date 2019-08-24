@@ -30,7 +30,8 @@ scp "${config}" "${endpoint}:~/gutenberg-http/.env"
 
 ssh -t "${endpoint}" '
 cd ~/gutenberg-http && \
-docker-compose up --build -d && \
+docker-compose pull && \
+docker-compose up -d && \
 (crontab -l; echo "0 1 * * * ${PWD}/scripts/update-data.sh") | crontab - && \
 echo "Done with app setup"
 '
