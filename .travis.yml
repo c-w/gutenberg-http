@@ -4,6 +4,7 @@ env:
   matrix:
     - DOCKER_PYTHON_VERSION=3.5
     - DOCKER_PYTHON_VERSION=3.6
+    - DOCKER_PYTHON_VERSION=3.7
 
 before_script:
   - export PYTHON_VERSION=${DOCKER_PYTHON_VERSION}
@@ -21,4 +22,4 @@ deploy:
     on:
       repo: c-w/gutenberg-http
       tags: true
-      condition: ${DOCKER_PYTHON_VERSION} = 3.6
+      condition: ${DOCKER_PYTHON_VERSION} = 3.7

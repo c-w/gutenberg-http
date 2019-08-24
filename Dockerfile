@@ -1,10 +1,12 @@
-ARG PYTHON_VERSION=3.6
+ARG PYTHON_VERSION=3.7
 FROM python:${PYTHON_VERSION}-alpine AS builder
 
 WORKDIR /app
 
 RUN apk add --no-cache db-dev \
  && apk add --no-cache build-base
+
+RUN pip install -U pip setuptools wheel
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt \

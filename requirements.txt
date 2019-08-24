@@ -1,8 +1,8 @@
-Flask-Caching==1.7.1
-Gutenberg==0.7.0
+Flask-Caching==1.7.2
+Gutenberg==0.8.0
 Jinja2==2.10.1
 applicationinsights==0.11.9
 click==7.0
-flask-cors==3.0.7
-flask==1.0.2
+flask-cors==3.0.8
+flask==1.1.1
 gunicorn==19.9.0
